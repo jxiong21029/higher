@@ -144,6 +144,8 @@ class DifferentiableOptimizer(_abc.ABC):
                     "parameter groups.".format(k)
                 )
             for group_idx, group in enumerate(self.param_groups):
+                if k not in group:
+                    _warnings.warn(f"parameter override {k} is not targeting existing key")
                 group[k] = v[0] if len(v) == 1 else v[group_idx]
 
     def step(
